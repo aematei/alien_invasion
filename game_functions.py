@@ -6,7 +6,8 @@ import pygame
 from bullet import Bullet
 from alien import Alien
 
-def check_keydown_events(event, ai_settings, screen, ship, bullets):
+def check_keydown_events(event, ai_settings, screen, stats, ship, 
+	aliens, bullets):
 	if event.key == pygame.K_RIGHT:
 		ship.moving_right = True
 	elif event.key == pygame.K_LEFT:
@@ -15,7 +16,21 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
 		fire_bullet(ai_settings, screen, ship, bullets)
 	elif event.key == pygame.K_q:
 		sys.exit()
-		
+	elif event.key == pygame.K_p:
+		if not stats.game_active:
+			# Hide the mouse cursor.
+			pygame.mouse.set_visible(False)
+			# Reset game statistics.
+			stats.reset_stats()
+			stats.game_active = True
+
+			# Empty list of aliens and bullets.
+			aliens.empty()
+			bullets.empty()
+
+			# Create new fleet and center the ship
+			create_fleet(ai_settings, screen, ship, aliens)
+			ship.center_ship()
 
 def fire_bullet(ai_settings, screen, ship, bullets):
 	"""Fire a bullet if limit not reached yet."""
@@ -39,7 +54,8 @@ def check_events(ai_settings, screen, stats, play_button, ship, aliens,
 
 		# Moving Right
 		elif event.type == pygame.KEYDOWN:
-			check_keydown_events(event, ai_settings, screen, ship, bullets)
+			check_keydown_events(event, ai_settings, screen, stats, ship,
+				aliens, bullets)
 
 		elif event.type == pygame.KEYUP:
 			check_keyup_events(event, ship)
