@@ -18,12 +18,14 @@ class Settings():
 		self.bullets_allowed = 5
 		
 		# Alien Settings
-		self.fleet_drop_speed = 10
+		self.fleet_drop_speed = 100
 
 		# How quickly the game speeds up
 		self.speedup_scale = 1.5
 		# How quickly the alien point values increase
 		self.score_scale = 1.5
+
+		# High score should never be reset.
 
 		self.initialize_dynamic_settings()
 
