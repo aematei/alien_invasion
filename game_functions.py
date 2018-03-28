@@ -152,12 +152,19 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship,
 	if len(aliens) == 0:
 		# If the entire fleet is destroyed, start a new level.
 		bullets.empty()
-		ai_settings.increase_speed()
+		if stats.level > 10:
+			ai_settings.increase_speed()
 		create_fleet(ai_settings, screen, ship, aliens)
 
 		# Increase level.
 		stats.level += 1
 		sb.prep_level()
+
+		# Increase ship and bullet speed every 4 levels until level 16.
+		if stats.level <= 16:
+			if stats.level % 4 == 0:
+				ai_settings.levelup_ship()
+
 
 
 def get_number_aliens_x(ai_settings, alien_width):
